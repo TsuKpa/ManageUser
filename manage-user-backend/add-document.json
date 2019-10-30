@@ -1,0 +1,80 @@
+{
+"codef": "vohieuhoa",
+"byRole": ["admin","manager"],
+"description": "deactive"
+}
+
+{
+"codef": "xem",
+"byRole": ["admin","user","manager"],
+"description": "view"
+}
+
+{
+    "codef": "sua",
+    "byRole": ["admin","manager","user"],
+    "description": "view"
+}
+
+{
+    "codef": "xoa",
+    "byRole": ["admin","manager"],
+    "description": "delete"
+}
+
+{
+    "codef": "them",
+    "byRole": ["admin","manager"],
+    "description": "add"
+}
+
+{
+	"name": "admin",
+	"listFunction": ["5db65d15467ad955560a797e", "5db65cf9467ad955560a797c", "5db65d08467ad955560a797d", "5db65cd6467ad955560a797a"],
+	"description": "Them, sua, xoa, vo hieu hoa"
+}
+
+{
+	"name": "manager",
+	"listFunction": ["5db65d15467ad955560a797e", "5db65cf9467ad955560a797c", "5db65cd6467ad955560a797a"],
+	"description": "Them, sua, vo hieu hoa"
+}
+
+{
+	"name": "user",
+	"listFunction": ["5db65cee467ad955560a797b", "5db65cf9467ad955560a797c"],
+	"description": "Xem, sua"
+}
+
+//user role admin
+{
+	"email": "aaa@gmail.com",
+    "password": "password",
+    "fullname": "String",
+    "phone": "String",
+    "avatar": "String",
+    "bio": "String",
+    "role": "5db65e39467ad955560a797f"
+}
+
+//user role manager
+{
+	"email": "aaa@gmail.com",
+    "password": "password",
+    "fullname": "String",
+    "phone": "String",
+    "avatar": "String",
+    "bio": "String",
+    "role": "5db65e45467ad955560a7980"
+}
+
+//user role user
+{
+	"email": "aaa@gmail.com",
+    "password": "password",
+    "fullname": "String",
+    "phone": "String",
+    "avatar": "String",
+    "bio": "String",
+    "role": "5db65e50467ad955560a7981"
+}
