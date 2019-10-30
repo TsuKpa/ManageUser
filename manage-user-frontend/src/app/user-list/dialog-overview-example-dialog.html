@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>This user have email {{data.email}}</h1>
+<div mat-dialog-content>
+  <p>Do you really want to delete this user?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" color="primary">No Thanks</button>
+  <button mat-button [mat-dialog-close]="data.index" cdkFocusInitial >Confirm</button>
+</div>

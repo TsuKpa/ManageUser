@@ -1,0 +1,43 @@
+<h2>User Details</h2>
+
+<hr/>
+<div *ngIf="user">
+
+  <div>
+    <label><b>Email: </b></label> {{user.email}}
+  </div>
+
+  <div>
+    <label><b>Fullname: </b></label> {{user.fullname}}
+  </div>
+
+  <div>
+    <label><b>Phone: </b></label> {{user.phone}}
+  </div>
+
+  <div>
+    <label><b>Avatar: </b></label> {{user.avatar}}
+  </div>
+
+  <div>
+    <label><b>Bio: </b></label> {{user.bio}}
+  </div>
+
+  <div *ngIf="role">
+    <label><b>Role: </b></label> {{role.name}}
+  </div>
+
+  <div>
+    <label><b>Functions: </b></label>
+  <ul>
+    <li *ngFor="let f of fn">
+      {{f}}
+    </li>
+  </ul>
+  </div>
+</div>
+
+<br>
+<br>
+    <button (click)="list()" class="btn btn-info">Back to User List</button>
+    <button (click)="update()" class="btn btn-primary" style="margin-left: 10px;">Edit</button>

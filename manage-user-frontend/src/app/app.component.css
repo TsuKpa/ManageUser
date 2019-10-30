@@ -1,0 +1,13 @@
+.span {
+  margin: auto;
+}
+
+.action {
+  justify-self: flex-end;
+  color: white;
+}
+
+.navbar-expand-sm {
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}

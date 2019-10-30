@@ -1,0 +1,90 @@
+<h3>Update Users</h3>
+<div [hidden]="submitted" style="width: 400px;">
+  <form (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" id="email" required
+             [(ngModel)]="user.email" name="Email">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" required
+             [(ngModel)]="user.password" name="passWord">
+    </div>
+
+
+
+    <div class="form-group">
+      <label for="fullname">Full Name</label>
+      <input type="text" class="form-control" id="fullname" required
+             [(ngModel)]="user.fullname" name="fullName">
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="text" class="form-control" id="phone" required
+             [(ngModel)]="user.phone" name="phone">
+    </div>
+
+    <div class="form-group">
+      <label for="avatar">Avatar</label>
+      <input type="text" class="form-control" id="avatar" required
+             [(ngModel)]="user.avatar" name="avatar">
+    </div>
+
+    <div class="form-group">
+      <label for="bio">Bio</label>
+      <input type="text" class="form-control" id="bio" required
+             [(ngModel)]="user.bio" name="bio">
+    </div>
+
+
+    <div class="form-group">
+      <label>Status</label><br>
+      <mat-slide-toggle [(ngModel)]="user.status" [ngModelOptions]="{standalone: true}">
+        Active</mat-slide-toggle>
+    </div>
+
+    <div class="form-group">
+      <label>Role</label><br>
+      <select [(ngModel)]="user.role"  [ngModelOptions]="{standalone: true}" (ngModelChange)="modelChanged($event)">
+        <option *ngFor="let r of roles" [ngValue]="r._id">{{r.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Functions</label>
+
+      <ul style="list-style: none">
+        <li *ngFor="let f of fn">
+          <mat-checkbox  [value]="f._id" [checked]="checked(f._id,user.functions)"
+                        (change)="addOrRemoveFunction(f._id)">
+          </mat-checkbox>
+          <label  style="margin-left: 20px">{{f.codef}}</label>
+        </li>
+      </ul>
+      <br>
+
+    </div>
+
+
+
+      <app-notify-popup>
+        <button type="submit"></button>
+      </app-notify-popup>
+
+
+  </form>
+</div>
+
+
+
+
+
+
+<div [hidden]="!submitted">
+  <h4>You submitted successfully!</h4>
+  <!-- <button class="btn btn-success" (click)="newEmployee()">Add</button> -->
+</div>
