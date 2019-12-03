@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser =  require('body-parser');
-var cors = require('cors')
+var cors = require('cors');
 var passport = require('passport');
 var expressJwt = require('express-jwt');
 const middleware = expressJwt({secret: 'SECRET'});

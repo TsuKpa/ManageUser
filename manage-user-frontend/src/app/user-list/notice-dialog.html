@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Notice </h1>
+<div mat-dialog-content>
+  <p *ngIf="data.data">You dont have permission {{data.data}}!</p>
+  <p *ngIf="data.notice">{{data.notice}}!</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" color="primary">Okay :(</button>
+</div>
+

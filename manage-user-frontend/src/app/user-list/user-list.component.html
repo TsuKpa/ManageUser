@@ -1,47 +1,3 @@
-<!--<div class="panel panel-primary">-->
-<!--  <div class="panel-heading">-->
-<!--    <h2>User List</h2>-->
-<!--  </div>-->
-<!--  <div class="panel-body">-->
-<!--    <table class="table table-striped">-->
-<!--      <thead>-->
-<!--      <tr>-->
-<!--        <th>Email</th>-->
-<!--        <th>Password</th>-->
-<!--        &lt;!&ndash;            <th>Email</th>&ndash;&gt;-->
-<!--        &lt;!&ndash;            <th>Fullname</th>&ndash;&gt;-->
-<!--        &lt;!&ndash;            <th>Phone</th>&ndash;&gt;-->
-<!--        <th>Avatar</th>-->
-<!--        <th>Bio</th>-->
-<!--        &lt;!&ndash;            <th>Role</th>&ndash;&gt;-->
-<!--        &lt;!&ndash;            <th>User Function</th>&ndash;&gt;-->
-<!--        <th>Actions</th>-->
-<!--      </tr>-->
-<!--      </thead>-->
-<!--      <tbody>-->
-<!--      <tr *ngFor="let user of users">-->
-<!--        <td>{{user.email}}</td>-->
-<!--        <td>{{user.password}}</td>-->
-<!--        &lt;!&ndash;            <td>{{user.email}}</td>&ndash;&gt;-->
-<!--        &lt;!&ndash;            <td>{{user.fullname}}</td>&ndash;&gt;-->
-<!--        &lt;!&ndash;            <td>{{user.phone}}</td>&ndash;&gt;-->
-<!--        <td><img src = "{{user.avatar}}" alt="avatar"> </td>-->
-<!--        <td>{{user.bio}}</td>-->
-<!--        &lt;!&ndash;            <td>{{user.role}}</td>&ndash;&gt;-->
-<!--        &lt;!&ndash;            <td>{{user.userFunction}}</td>&ndash;&gt;-->
-<!--        <td>-->
-<!--          <button (click)="userDetails(user._id)" class="btn btn-info" style="margin-right: 10px">Details</button>-->
-<!--          <button (click)="deleteUser(user._id)" class="btn btn-danger">Delete</button>-->
-
-<!--        </td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
-<!--  </div>-->
-<!--</div>-->
-
-
-
 <mat-form-field>
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 </mat-form-field>
@@ -52,32 +8,39 @@
 
     <!-- ID Column -->
     <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td mat-cell *matCellDef="let user"> {{user._id}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
+      <td mat-cell *matCellDef="let user" (click)="userDetails(user._id)">
+        <span style="color: dodgerblue; cursor: pointer;">{{user._id}}</span></td>
+
     </ng-container>
 
     <!-- Email Column -->
     <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>
       <td mat-cell *matCellDef="let user"> {{user.email}} </td>
     </ng-container>
 
     <!-- Role Column -->
-    <ng-container matColumnDef="role" >
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Role</th>
       <td mat-cell *matCellDef="let user">{{user.role}}</td>
     </ng-container>
 
     <!-- Status Column -->
     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Active </th>
-      <td mat-cell *matCellDef="let user"> {{user.status}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Active</th>
+      <td mat-cell *matCellDef="let user">
+        <mat-slide-toggle [(ngModel)]="user.status"
+                          (ngModelChange)="activate($event,user._id, user)"
+                          [ngModelOptions]="{standalone: true}">
+        </mat-slide-toggle>
+      </td>
     </ng-container>
 
 
     <!-- Avatar Column -->
     <ng-container matColumnDef="avatar">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> avatar </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> avatar</th>
       <td mat-cell *matCellDef="let user">
         <img src="{{user.avatar}}" alt="">
       </td>
@@ -87,17 +50,15 @@
     <ng-container matColumnDef="btn">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let user">
-        <button mat-icon-button >
+        <button mat-icon-button>
           <mat-icon aria-label="Edit" (click)="Edit(this.user._id)">edit</mat-icon>
         </button>
 
-        <button mat-icon-button >
-          <mat-icon aria-label="Delete" (click)="deleteUser(this.user._id, this.user.email)">delete</mat-icon>
+        <button mat-icon-button>
+          <mat-icon aria-label="Delete" (click)="deleteUser(this.user._id)">delete</mat-icon>
         </button>
       </td>
     </ng-container>
-
-
 
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

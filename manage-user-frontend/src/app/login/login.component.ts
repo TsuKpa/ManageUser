@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, TokenPayload } from '../authentication.service';
 import {Router} from "@angular/router";
 import {FormControl, Validators} from "@angular/forms";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-login',
@@ -26,17 +27,31 @@ export class LoginComponent implements OnInit {
 
   pwdWrong: boolean;
   userWrong: false;
+  isLock: boolean;
 
 
-  constructor(private auth: AuthenticationService, private router: Router) { }
+  constructor(private auth: AuthenticationService, private router: Router,
+  private userService: UserService) { }
 
   ngOnInit() {
   }
 
   login() {
     if (this.user.email !== '' && this.user.password !== ''){
-      this.auth.login(this.user).subscribe(() => {
-        this.router.navigateByUrl('/users');
+      this.auth.login(this.user).subscribe((user) => {
+        var id = this.auth.getUserDetails()._id;
+        this.userService.getUser(id).subscribe(user => {
+          if (user.status == false){
+            this.isLock = true;
+            this.auth.logout();
+            setTimeout( () => {
+              this.isLock = false;
+            }, 5000);
+          }
+          else {
+            this.router.navigateByUrl('/users');
+          }
+        });
       }, (err) => {
         if (err.error.message == 'Password is wrong'){
           this.pwdWrong = true;
@@ -54,5 +69,9 @@ export class LoginComponent implements OnInit {
         else console.log(err);
       });
     }
+  }
+
+  register() {
+    this.router.navigateByUrl('/register');
   }
 }

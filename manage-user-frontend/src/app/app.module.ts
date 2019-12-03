@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
-import {ExampleDialogComponent, UserListComponent} from './user-list/user-list.component';
+import {ExampleDialogComponent, NoticeDialogComponent, UserListComponent} from './user-list/user-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { UpdateUserComponent } from './update-user/update-user.component';
@@ -26,6 +26,7 @@ import {AuthGuardService} from "./auth-guard.service";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     NotifyPopupComponent,
     notifypopupcomponent,
     ExampleDialogComponent,
-    LoginComponent
+    LoginComponent,
+    NoticeDialogComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -60,7 +63,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
     MatSlideToggleModule,
     MatCheckboxModule
   ],
-  entryComponents: [NotifyPopupComponent, notifypopupcomponent, ExampleDialogComponent],
+  entryComponents: [NotifyPopupComponent, notifypopupcomponent, ExampleDialogComponent, NoticeDialogComponent],
   providers: [AuthenticationService, AuthGuardService],
   bootstrap: [AppComponent]
 })

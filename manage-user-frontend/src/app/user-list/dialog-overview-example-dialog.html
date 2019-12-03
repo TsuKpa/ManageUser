@@ -1,6 +1,6 @@
-<h1 mat-dialog-title>This user have email {{data.email}}</h1>
+<h1 mat-dialog-title>This user have ID {{data.index}}</h1>
 <div mat-dialog-content>
-  <p>Do you really want to delete this user?</p>
+  <p>Do you really want to {{data.action}} this user?</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()" color="primary">No Thanks</button>

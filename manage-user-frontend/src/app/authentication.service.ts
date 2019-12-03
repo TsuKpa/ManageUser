@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 
 export interface UserDetails {
   _id: string;
+  role: string;
   email: string;
   name: string;
   exp: number;
@@ -76,7 +77,7 @@ export class AuthenticationService {
     let base;
 
     if (method === 'post') {
-      base = this.http.post(`${this.baseUrl}`, user);
+      base = this.http.post(`http://localhost:3000/${type}`, user);
     } else {
       base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }
@@ -95,9 +96,9 @@ export class AuthenticationService {
 
 
 
-  // public register(user: TokenPayload): Observable<any> {
-  //   return this.request('post', 'register', user);
-  // }
+  public register(user: TokenPayload): Observable<any> {
+    return this.request('post', 'register', user);
+  }
 
   public login(user: TokenPayload): Observable<any> {
     return this.request('post', 'login', user);

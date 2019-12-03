@@ -41,20 +41,14 @@
     </div>
 
 
-    <div class="form-group">
-      <label>Status</label><br>
-      <mat-slide-toggle [(ngModel)]="user.status" [ngModelOptions]="{standalone: true}">
-        Active</mat-slide-toggle>
-    </div>
-
-    <div class="form-group">
+    <div class="form-group" *ngIf="isAdmin">
       <label>Role</label><br>
       <select [(ngModel)]="user.role"  [ngModelOptions]="{standalone: true}" (ngModelChange)="modelChanged($event)">
-        <option *ngFor="let r of roles" [ngValue]="r._id">{{r.name}}</option>
+        <option *ngFor="let r of roles " [ngValue]="r._id">{{r.name}}</option>
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf="isAdmin">
       <label>Functions</label>
 
       <ul style="list-style: none">
@@ -69,10 +63,8 @@
 
     </div>
 
-
-
       <app-notify-popup>
-        <button type="submit"></button>
+        <button type="submit" mat-flat-button color="primary">Submit</button>
       </app-notify-popup>
 
 

@@ -9,6 +9,8 @@ import {User} from "./user";
 export class UserService {
   private token: string;
   private baseUrl = 'http://localhost:3000/users';
+  private userNormalUrl = 'http://localhost:3000/usersByRoleUser';
+  private registerUrl = 'http://localhost:3000/register';
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +21,7 @@ export class UserService {
     return this.token;
   }
 
-  getUser(id: number): Observable<any> {
+  getUser(id: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`,{ headers: { Authorization: `Bearer ${this.getToken()}` }});
   }
 
@@ -27,15 +29,24 @@ export class UserService {
     return this.http.post(`${this.baseUrl}`, user,{ headers: { Authorization: `Bearer ${this.getToken()}` }});
   }
 
-  updateUser(id: number, value: any): Observable<Object> {
+  registerUser(user: Object): Observable<Object> {
+    return this.http.post(`${this.registerUrl}`, user);
+  }
+
+
+  updateUser(id: string, value: any): Observable<Object> {
     return this.http.put(`${this.baseUrl}/${id}`, value,{ headers: { Authorization: `Bearer ${this.getToken()}` }});
   }
 
-  deleteUser(id: number): Observable<any> {
+  deleteUser(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`,{ headers: { Authorization: `Bearer ${this.getToken()}`, responseType: 'text' }});
   }
 
   getUsersList(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}` ,{ headers: { Authorization: `Bearer ${this.getToken()}` }});
+  }
+
+  getNormalUsersList(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.userNormalUrl}` ,{ headers: { Authorization: `Bearer ${this.getToken()}` }});
   }
 }

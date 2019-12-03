@@ -6,6 +6,7 @@ import {Role} from "../role";
 import {Functions} from "../functions";
 import {RoleService} from '../role.service';
 import {FunctionsService} from '../functions.service';
+import {AuthenticationService} from "../authentication.service";
 
 @Component({
   selector: 'app-create-user',
@@ -21,24 +22,55 @@ export class CreateUserComponent implements OnInit {
   selected: string[];
   private emailWrong: false;
   private emsg: false;
+  private isAdmin: boolean = false;
 
   constructor(private userService: UserService,
-              private router: Router,
-              private RoleService: RoleService,
+              private router: Router, public auth: AuthenticationService,
+              private RoleService: RoleService, private fnService: FunctionsService,
               private FunctionsService: FunctionsService) {
   }
 
   ngOnInit() {
-    this.roles = new Array();
-    this.fn = new Array();
-    this.selected = new Array();
-    this.RoleService.getRolesList().subscribe(roles => {
-      for (const r of roles) {
-        if (containsObject(r.name, this.roles) == false) {
-          this.roles.push(r);
-        }
-        ;
+    this.roles = [];
+    this.fn = [];
+    this.selected = [];
+
+    this.check('add').then(value => {
+      if (value==true){
+        this.RoleService.getRole(this.auth.getUserDetails().role).subscribe(role => {
+          if (role.name == 'admin') {
+            this.isAdmin = true;
+            this.RoleService.getRolesList().subscribe(roles => {
+              for (const r of roles) {
+                if (containsObject(r.name, this.roles) == false) {
+                  this.roles.push(r);
+                }
+              }
+            });
+          }
+        });
       }
+      else {
+        this.router.navigate(['/users']);
+      }
+    });
+
+
+  }
+
+  check(fn): Promise<boolean> {
+    return new Promise<boolean>(resolve => {
+      this.userService.getUser(this.auth.getUserDetails()._id).subscribe(user => {
+        for (let i = 0; i < user.functions.length; i++) {
+          this.fnService.getFunction(user.functions[i]).subscribe(f => {
+            if (f.description === fn) {
+              resolve(true);
+            } else if (i == user.functions.length - 1) {
+              resolve(false);
+            }
+          });
+        }
+      });
     });
   }
 
@@ -48,17 +80,16 @@ export class CreateUserComponent implements OnInit {
           this.user = new User();
           this.gotoList();
         }, error => {
-          if (error.error.message == 'User validation failed: email: is already taken.'){
+          if (error.error.message == 'User validation failed: email: is already taken.') {
             // @ts-ignore
             this.emailWrong = true;
-            setTimeout( () => {
+            setTimeout(() => {
               this.emailWrong = false;
             }, 5000);
-          }
-          else {
+          } else {
             // @ts-ignore
             this.emsg = true;
-            setTimeout( () => {
+            setTimeout(() => {
               this.emsg = false;
             }, 5000);
           }
@@ -80,7 +111,7 @@ export class CreateUserComponent implements OnInit {
     this.RoleService.getRole(id)
       .subscribe(f => {
         this.user.functions = f.listFunction;
-        for (var i of this.user.functions){
+        for (var i of this.user.functions) {
           this.FunctionsService.getFunction(i).subscribe(fs => {
             this.fn.push(fs);
           });

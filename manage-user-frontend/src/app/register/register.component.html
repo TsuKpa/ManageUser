@@ -1,0 +1,76 @@
+<h3>Register Users</h3>
+
+<div class="notice" *ngIf="notice">
+    <h1>Success!</h1>
+    <h2>Please check your email to complete register your account.</h2>
+</div>
+<form (ngSubmit)="onSubmit()" #ngForm="ngForm" *ngIf="!submitted">
+
+  <div class="form-group">
+    <input type="text" name="Email"
+           placeholder="Email" class="form-control" required #email="ngModel"
+           [(ngModel)]="user.email" [ngModelOptions]="{standalone: true}">
+    <div *ngIf="email.invalid && (ngForm.submitted || email.touched)" class="alert alert-danger">
+      <div *ngIf="email.errors.required"> Email is required.</div>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <input type="password" [(ngModel)]="user.password" name="password"
+           placeholder="Password" class="form-control" required #password="ngModel"/>
+    <div *ngIf="password.invalid && (ngForm.submitted || password.touched)" class="alert alert-danger">
+      <div *ngIf="password.errors.required"> Password is required.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input type="password" [(ngModel)]="repassword" name="confirmpassword" placeholder="Confirm Password"
+           class="form-control" required #confirmpassword="ngModel"/>
+    <div *ngIf="confirmpassword.invalid && (ngForm.submitted || confirmpassword.touched)" class="alert alert-danger">
+      <div *ngIf="confirmpassword.errors.required"> Confirm password is required.</div>
+    </div>
+    <div *ngIf="confirmpasswords && (ngForm.submitted || confirmpassword.touched)" class="alert alert-danger"> Password is incorrect.</div>
+  </div>
+
+
+
+  <div class="form-group">
+    <input type="text" name="fullname" required #fullname="ngModel" class="form-control"
+           [(ngModel)]="user.fullname" placeholder="Fullname"
+           [ngModelOptions]="{standalone: true}">
+    <div *ngIf="fullname.invalid && (ngForm.submitted || fullname.touched)" class="alert alert-danger">
+      <div *ngIf="fullname.errors.required"> Fullname is required.</div>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <input type="text" id="phone" required name="phone" #phone="ngModel"
+           placeholder="Phone" class="form-control"
+           [(ngModel)]="user.phone" [ngModelOptions]="{standalone: true}" >
+    <div *ngIf="phone.invalid && (ngForm.submitted || phone.touched)" class="alert alert-danger">
+      <div *ngIf="phone.errors.required"> Phone is required.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input type="text" id="avatar" required name="avatar" #avatar="ngModel"
+           placeholder="Avatar" class="form-control"
+           [(ngModel)]="user.avatar" [ngModelOptions]="{standalone: true}" >
+    <div *ngIf="avatar.invalid && (ngForm.submitted || avatar.touched)" class="alert alert-danger">
+      <div *ngIf="avatar.errors.required"> Avatar is required.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <input type="text" id="bio" placeholder="Bio" required name="bio" class="form-control"
+           #bio="ngModel"
+           [(ngModel)]="user.bio" [ngModelOptions]="{standalone: true}">
+    <div *ngIf="bio.invalid && (ngForm.submitted || bio.touched)" class="alert alert-danger">
+      <div *ngIf="bio.errors.required"> Bio is required.</div>
+    </div>
+  </div>
+  <button mat-flat-button color="primary" type="submit" [disabled]="!ngForm.valid">Submit</button>
+</form>
+

@@ -1,46 +1,160 @@
 const User = require('../models/user.model.js');
 const UserFunctions = require('../models/userfunction.model.js');
 var passport = require('passport');
-
+var nodemailer = require('nodemailer');
 
 // Create and Save a new User
 exports.create = (req, res) => {
-
-
     // Create a User
-    const user = new User({
-        email: req.body.email,
-        phone: req.body.phone,
-        avatar: req.body.avatar,
-        bio: req.body.bio,
-        status: true,
-        role: req.body.role
-    });
+	User.findOne({ email: req.body.email }).then(value => {
+		if (value){
+			res.status(404).send({
+				message: "Email alreay taken!"
+			});
+		}
+		else {
+			const user = new User({
+				email: req.body.email,
+				phone: req.body.phone,
+				avatar: req.body.avatar,
+				fullname: req.body.fullname,
+				bio: req.body.bio,
+				status: true,
+				role: req.body.role
+			});
 
-    UserFunctions.findById(req.body.role).then(f => {
-        user.functions = f.listFunction; //save user functions with role
-        user.password = user.generateHash(req.body.password);
-        //Save User in the database
-        user.save()
-            .then(data => {
-                var token;
-                token = user.generateJwt();
-                res.status(200);
-                res.json({
-                    "token": token,
-                    "user": data
-                });
-            }).catch(err => {
-                res.status(500).send({
-                    message: err.message || "Some error occurred while creating the User."
-                });
-            });
-    });
+			UserFunctions.findById(req.body.role).then(f => {
+				user.functions = f.listFunction; //save user functions with role
+				user.password = user.generateHash(req.body.password);
+				//Save User in the database
+				user.save()
+					.then(data => {
+						console.log(data);
+						res.status(200).send({
+								message: "Success create user."
+							}
+						);
+						// var token;
+						// token = user.generateJwt();
+						// res.status(200);
+						// res.json({
+						// 	"token": token,
+						// 	"user": data
+						// });
+					}).catch(err => {
+					res.status(500).send({
+						message: err.message || "Some error occurred while creating the User."
+					});
+				});
+			});
+		}
+	}).catch(err => {
+		console.log(err);
+		res.status(500).send({
+			message: err.message || "Some error occurred while creating the User."
+		});
+	});
+};
 
+// Register and Save a new User
+exports.register = (req, res) => {
+	// Create a User
+	User.findOne({ email: req.body.email }).then(value => {
+		if (value){
+			res.status(404).send({
+				message: "Email alreay taken!"
+			});
+		}
+		else {
+			const user = new User({
+				email: req.body.email,
+				phone: req.body.phone,
+				avatar: req.body.avatar,
+				fullname: req.body.fullname,
+				bio: req.body.bio,
+				status: false,
+				role: req.body.role
+			});
 
+			UserFunctions.findById(req.body.role).then(f => {
+				user.functions = f.listFunction; //save user functions with role
+				user.password = user.generateHash(req.body.password);
+				//console.log(user.password);
+				//Save User in the database
+				user.save()
+					.then(data => {
+						var transporter = nodemailer.createTransport({
+							service: 'gmail',
+							auth: {
+								user: 'namb1400641@student.ctu.edu.vn',
+								pass: 'p@5aemNp'
+							}
+						});
+
+						var mailOptions = {
+							from: 'namb1400641@student.ctu.edu.vn',
+							to: req.body.email,
+							subject: 'Verify your Manage User App account',
+							html: '<h1>Welcome user '+req.body.email+'!</h1><p>Please click the link below to active your account:</p><b>'+'http://localhost:3000/verify/'+req.body.email+'?name='+ user.password+'</b>'
+						};
+
+						transporter.sendMail(mailOptions, function(error, info){
+							if (error) {
+								console.log(error);
+							} else {
+								console.log('Email sent: ' + info.response);
+								console.log(data);
+								res.status(200).send({
+									message: "Success create user. Please check your email to active your account."
+								});
+							}
+						});
+					}).catch(err => {
+					res.status(500).send({
+						message: err.message || "Some error occurred while register the User."
+					});
+				});
+			});
+		}
+	}).catch(err => {
+		console.log(err);
+		res.status(500).send({
+			message: err.message || "Some error occurred while register the User."
+		});
+	});
 };
 
 
+
+exports.verify = (req,res) => {
+	var email = req.params.email;
+	User.findOne({ email: email }).then(user => {
+		if (user.status === false){
+			//console.log(user);
+			console.log(user.password, req.query.name);
+			if (user.password === req.query.name){
+				User.findByIdAndUpdate(user._id, {
+					$set: {
+						'status': true
+					}
+				}).then(value => {
+					res.status(200).send(
+						"<h2>Your account actived. Try login again.</h2>"
+					);
+				}).catch(err => {
+					res.status(500).send(
+						{ message: "Some error when set status for your account!"}
+					)
+				});
+			}
+			else {
+				res.status(404).send({
+					message: "Your link is invalid. Please try again"
+				});
+			}
+		}
+	})
+};
 // exports.login = (req, res) => {
 //     User.findOne({
 //         email: req.body.email
@@ -70,7 +184,6 @@ exports.login = (req, res) => {
             res.status(404).send(err);
             return;
         }
-
         // If a user is found
         if (user) {
             token = user.generateJwt();
@@ -84,6 +197,7 @@ exports.login = (req, res) => {
         }
     })(req, res);
 };
+
 
 
 
@@ -102,6 +216,26 @@ exports.findAll = (req, res) => {
                     message: err.message || "Some error occurred while retrieving users."
                 });
             });
+    }
+};
+
+
+
+// Retrieve and return all User from the database.
+exports.findAllRoleUser = (req, res) => {
+    if (!req.payload._id) {
+        res.status(401).send({
+            message: "UnauthorizedError: private users"
+        });
+    } else {
+        User.find({ $where: 'this.role == "5db65e50467ad955560a7981"'})
+            .then(users => {
+                res.send(users);
+            }).catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving users with role user."
+            });
+        });
     }
 };
 
@@ -153,9 +287,10 @@ exports.update = (req, res) => {
             }
             res.send(user);
         }).catch(err => {
+		console.log(err);
             if (err.kind === 'ObjectId') {
                 return res.status(404).send({
-                    message: "User not found with id " + req.params.userId
+                    message: "User not found with id ! " + req.params.userId
                 });
             }
             return res.status(500).send({

@@ -24,11 +24,15 @@
     </mat-form-field>
   </div>
 
-
+  <span *ngIf="isLock">User is locked</span>
   <span *ngIf="pwdWrong">Password is wrong</span>
   <span *ngIf="userWrong">User is not exist</span>
   <br>
-  <button mat-button color="primary" class="btn" style="margin-top: 10px;"
+  <button mat-flat-button color="primary" class="btn" style="margin-top: 10px;"
           type="submit" [disabled]="!ngForm.valid">Login
+  </button>
+  <button mat-flat-button color="warn" class="btn" style="margin-left: 20px;"
+          (click)="register()" >
+    Register
   </button>
 </form>

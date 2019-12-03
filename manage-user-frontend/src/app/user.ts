@@ -1,5 +1,5 @@
 export class User {
-    _id: number;
+    _id: string;
     password: string;
     email: string;
     fullname: string;
@@ -8,5 +8,5 @@ export class User {
     bio: string;
     role: string;
     functions: string[];
-    status: boolean;
+    status: boolean
 }
