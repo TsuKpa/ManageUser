@@ -32,6 +32,8 @@ Download or clone the respository and cd to them
 ``bash
 $cd manage-user-backend or manage-user-frontend
 ``
+Install their packages
+
 ``bash
 $npm install
 ``
