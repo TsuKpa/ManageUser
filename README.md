@@ -30,7 +30,10 @@ Download and install mongodb then start the service.
 Download or clone the respository and cd to them
 
 ``bash
-$cd manage-user-backend
+$cd manage-user-backend or manage-user-frontend
+``
+``bash
+$npm install
 ``
 
 Run the server
@@ -42,7 +45,7 @@ $node server.js
 Run the front-end app
 
 ``bash
-$ng serve
+$npm start
 ``
 
 #Start with
