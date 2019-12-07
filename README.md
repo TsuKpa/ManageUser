@@ -29,21 +29,27 @@ Download and install mongodb then start the service.
 ## Running the application
 Download or clone the respository and cd to them
 
-``bash
-$cd manage-user-backend
-``
+```
+$cd manage-user-backend or manage-user-frontend
+```
+
+Install their packages
+
+```
+$npm install
+```
 
 Run the server
 
-``bash
+```
 $node server.js
-``
+```
 
 Run the front-end app
 
-``bash
-$ng serve
-``
+```
+$npm start
+```
 
 #Start with
 http://localhost:4200/
