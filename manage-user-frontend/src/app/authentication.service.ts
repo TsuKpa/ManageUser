@@ -28,7 +28,7 @@ export interface TokenPayload {
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private baseUrl = 'http://localhost:3000/login';
+  private baseUrl = 'https://localhost:3000/login';
   private token: string;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -77,7 +77,7 @@ export class AuthenticationService {
     let base;
 
     if (method === 'post') {
-      base = this.http.post(`http://localhost:3000/${type}`, user);
+      base = this.http.post(`https://localhost:3000/${type}`, user);
     } else {
       base = this.http.get(`/api/${type}`, { headers: { Authorization: `Bearer ${this.getToken()}` }});
     }

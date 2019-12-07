@@ -4,6 +4,10 @@ var cors = require('cors');
 var passport = require('passport');
 var expressJwt = require('express-jwt');
 const middleware = expressJwt({secret: 'SECRET'});
+var https = require('https');
+var fs = require('fs');
+
+
 
 //create express app
 const app = express();
@@ -31,22 +35,10 @@ mongoose.connect(dbConfig.url, {
 });
 
 require('./config/passport');
-app.use(cors());
+
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-
-// Catch unauthorised errors
-
-// app.use(middleware);
-// app.use(function (err, req, res, next) {
-//   if (err.name === 'UnauthorizedError') {
-//     res.status(401).json({"message": "Invalid token!"});
-//   } else {
-//     next(err);
-//   }
-// });
+app.use(cors());
 
 
 // define a simple route
@@ -60,7 +52,12 @@ require('./app/routes/functions.routes.js')(app);
 require('./app/routes/userfunction.routes.js')(app);
 
 
-// listen for requests
-app.listen(3000, () => {
-    console.log("Server is listening on port 3000");
-});
+
+
+https.createServer({
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.cert')
+}, app)
+    .listen(3000, function () {
+        console.log('App listening on port 3000! Go to https://localhost:3000/')
+    });

@@ -8,7 +8,7 @@ import { Role } from "./role";
   providedIn: 'root'
 })
 export class RoleService {
-  private baseUrl = 'http://localhost:3000/userfunction';
+  private baseUrl = 'https://localhost:3000/userfunction';
   private token: string;
 
   constructor(private http: HttpClient) { }

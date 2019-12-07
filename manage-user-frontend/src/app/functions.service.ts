@@ -8,7 +8,7 @@ import {Functions} from "./functions";
 })
 export class FunctionsService {
 
-  private baseUrl = 'http://localhost:3000/functions';
+  private baseUrl = 'https://localhost:3000/functions';
   private token: string;
 
   constructor(private http: HttpClient) {

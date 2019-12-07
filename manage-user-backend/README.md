@@ -1,16 +1,6 @@
 # User Management Application
 
-A simple NodeJS application using REST API to manage user
-
-Some features:
- - Register with email confirmation
- - Login as role (authentication with passport local in express rest nodejs server):
-  + admin: can manage all user ( include admin)
-  + manager: can manage all user with role user
-  + user: can see its profile
- - CRUD user with permission of user
-
-a script file to add many user in model folder.
+A NodeJS application using REST API to manage user
 
 ## Prerequisites
 
@@ -28,7 +18,7 @@ https://www.mongodb.com/
 Download or clone the respository and cd to them
 
 ``bash
-$cd manage-user-backend
+$cd ManageUser
 ``
 
 Run the server

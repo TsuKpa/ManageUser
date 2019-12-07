@@ -8,9 +8,9 @@ import {User} from "./user";
 })
 export class UserService {
   private token: string;
-  private baseUrl = 'http://localhost:3000/users';
-  private userNormalUrl = 'http://localhost:3000/usersByRoleUser';
-  private registerUrl = 'http://localhost:3000/register';
+  private baseUrl = 'https://localhost:3000/users';
+  private userNormalUrl = 'https://localhost:3000/usersByRoleUser';
+  private registerUrl = 'https://localhost:3000/register';
 
   constructor(private http: HttpClient) { }
 
