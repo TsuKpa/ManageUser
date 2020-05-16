@@ -86,8 +86,8 @@ exports.register = (req, res) => {
 						var transporter = nodemailer.createTransport({
 							service: 'gmail',
 							auth: {
-								user: 'namb1400641@student.ctu.edu.vn',
-								pass: 'p@5aemNp'
+								user: 'xxx@gmail.com',
+								pass: 'password'
 							}
 						});
 
